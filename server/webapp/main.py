@@ -1,18 +1,24 @@
+import base64
 import os
+import re
+import secrets
 import sys
 from contextlib import asynccontextmanager
 
+from argon2 import PasswordHasher
 from common.database import engine
-from common.models import Base
+from common.database_demo import get_db_session
+from common.models import Base, Token, User, Workspace
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from loguru import logger
 from sqlalchemy import text
-
-from .api import router as api_router
+from sqlalchemy.ext.asyncio import AsyncSession
+from webapp.api import router as api_router
+from webapp.demo_workspace import example_workspace
 
 load_dotenv(override=True)
 
@@ -105,3 +111,47 @@ async def home(request: Request):
             "message": "Sesame running. Visit /docs for API documentation.",
         },
     )
+
+
+@app.post("/demo", response_class=JSONResponse)
+async def demo(
+    request: Request,
+    db_session: AsyncSession = Depends(get_db_session),
+):
+    """Create new demo user account"""
+    random_bytes = secrets.token_bytes(32)
+    base64_string = base64.b64encode(random_bytes).decode("utf-8")
+    random_user_id = re.sub(r"[^a-zA-Z0-9]", "", base64_string)
+
+    random_username = secrets.token_hex(8)
+    random_bytes = secrets.token_bytes(16)
+    random_password = base64.b64encode(random_bytes).decode("utf-8")
+
+    ph = PasswordHasher()
+    password_hash = ph.hash(random_password)
+
+    new_user = User(user_id=random_user_id, username=random_username, password_hash=password_hash)
+    db_session.add(new_user)
+
+    await db_session.flush()
+
+    """Create a new token for the user"""
+    token = await Token.create_token_for_user(
+        new_user.user_id,
+        db_session,
+        title="Demo token",
+        expiration_minutes=43200,
+    )
+
+    """ Create a new workspace for the user """
+    new_workspace = Workspace(
+        title="Demo Workspace", user_id=new_user.user_id, config=example_workspace
+    )
+    db_session.add(new_workspace)
+
+    await db_session.commit()
+
+    return {
+        "token": token.token,
+        "workspace_id": new_workspace.workspace_id,
+    }
