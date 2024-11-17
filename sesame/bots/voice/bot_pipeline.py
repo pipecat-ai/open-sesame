@@ -143,8 +143,9 @@ async def voice_bot_pipeline(
 
     pipeline = Pipeline(processors)
 
-    @rtvi.event_handler("on_bot_ready")
-    async def on_bot_ready(rtvi):
+    @rtvi.event_handler("on_client_ready")
+    async def on_client_ready(rtvi):
+        await rtvi.set_bot_ready()
         for message in params.actions:
             await rtvi.handle_message(message)
 

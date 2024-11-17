@@ -1,3 +1,3 @@
 aiohttp==3.10.10
 python-deepcompare
-pipecat-ai[daily,anthropic,cartesia,deepgram,openai,silero,together,websocket,elevenlabs]==0.0.47
+pipecat-ai[daily,anthropic,cartesia,deepgram,openai,silero,together,websocket,elevenlabs]==0.0.49

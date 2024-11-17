@@ -2,7 +2,6 @@ from pipecat.processors.aggregators.llm_response import LLMUserContextAggregator
 from pipecat.processors.frameworks.rtvi import (
     RTVIConfig,
     RTVIProcessor,
-    RTVIProcessorParams,
     RTVIServiceConfig,
     RTVIServiceOptionConfig,
 )
@@ -15,7 +14,6 @@ from bots.types import BotConfig
 async def create_rtvi_processor(
     bot_config: BotConfig,
     user_aggregator: LLMUserContextAggregator,
-    params: RTVIProcessorParams = RTVIProcessorParams(),
 ) -> RTVIProcessor:
     config = bot_config.config
 
@@ -45,7 +43,7 @@ async def create_rtvi_processor(
 
     config = RTVIConfig(config=config) if config else default_config
 
-    rtvi = RTVIProcessor(config=config, params=params)
+    rtvi = RTVIProcessor(config=config)
 
     await register_rtvi_services(rtvi, user_aggregator)
     await register_rtvi_actions(rtvi, user_aggregator)

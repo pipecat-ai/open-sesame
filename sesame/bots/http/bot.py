@@ -18,7 +18,6 @@ from pipecat.processors.frameworks.rtvi import (
     RTVIBotLLMProcessor,
     RTVIMessage,
     RTVIProcessor,
-    RTVIProcessorParams,
 )
 from pipecat.services.ai_services import LLMService, OpenAILLMContext
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -73,10 +72,7 @@ async def http_bot_pipeline(
     # RTVI
     #
 
-    rtvi = await create_rtvi_processor(
-        config, user_aggregator, RTVIProcessorParams(send_bot_ready=False)
-    )
-    await rtvi.set_client_ready()
+    rtvi = await create_rtvi_processor(config, user_aggregator)
 
     #
     # Processing
@@ -104,8 +100,8 @@ async def http_bot_pipeline(
 
     runner_task = asyncio.create_task(runner.run(task))
 
-    @rtvi.event_handler("on_bot_ready")
-    async def on_bot_ready(rtvi: RTVIProcessor):
+    @rtvi.event_handler("on_bot_started")
+    async def on_bot_started(rtvi: RTVIProcessor):
         # Handle RTVI messages. Usually (mostly always) we want to push frames, but
         # since `rtvi` is the first element of the pipeline it's OK to call
         # `handle_message()` directly.

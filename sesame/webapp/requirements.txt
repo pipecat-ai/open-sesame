@@ -7,6 +7,6 @@ asyncpg==0.29.0
 alembic==1.13.2
 pydantic==2.8.2
 argon2-cffi==23.1.0
-pipecat-ai==0.0.47
+pipecat-ai==0.0.49
 jinja2==3.1.4
 cryptography==43.0.3
