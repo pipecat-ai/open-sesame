@@ -163,7 +163,7 @@ export default function ClientPage({
           <AutoScrollToBottom />
 
           {/* Messages */}
-          <div className="relative flex-grow p-4 flex flex-col">
+          <div className="relative flex-grow p-4 pb-8 flex flex-col">
             {messages.length > 0 || showMessages ? (
               <ChatMessages
                 autoscroll={!showScrollToBottom}
@@ -212,12 +212,14 @@ export default function ClientPage({
           </div>
 
           {/* Chat controls */}
-          <div className="bg-background sticky bottom-0 z-10">
+          <div className="bg-background sticky bottom-4 z-10">
             <ChatControls
               conversationId={conversationId}
               vision={structuredWorkspace.botProfile === "vision"}
               workspaceId={workspaceId}
             />
+            {/* Prevents scroll content from showing up below chat controls */}
+            <div className="h-4 bg-background absolute top-full left-0 w-full" />
           </div>
         </div>
 

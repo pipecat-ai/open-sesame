@@ -23,7 +23,7 @@ export default function NavigationState() {
   return (
     <div
       ref={loaderRef}
-      className="fixed bottom-0 right-0 z-30 p-2 transition-opacity opacity-0 pointer-events-none"
+      className="fixed bottom-1 right-0 z-30 p-2 transition-opacity opacity-0 pointer-events-none"
     >
       <LoaderCircleIcon className="animate-spin" size={16} />
     </div>
