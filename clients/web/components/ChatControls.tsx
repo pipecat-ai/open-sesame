@@ -457,13 +457,13 @@ const ChatControls: React.FC<Props> = ({
       <div className="bg-secondary rounded-3xl flex flex-col gap-1 p-1">
         {/* Image Preview (if an image is selected) */}
         {previewUrls.length > 0 && (
-          <div className="relative w-full flex justify-start gap-2 mt-1 px-2">
+          <div className="relative w-full flex justify-start gap-2 mt-2 px-2">
             {previewUrls.map((url, idx) => (
               <div key={idx + url} className="relative inline-block">
                 <Image
                   src={url}
                   alt="Selected Preview"
-                  className="cursor-zoom-in h-20 w-20 object-cover rounded-lg"
+                  className="bg-muted cursor-zoom-in h-12 w-12 object-cover rounded-lg"
                   onClick={() => {
                     setStartIndex(idx);
                     setImageZoom(true);
@@ -477,7 +477,7 @@ const ChatControls: React.FC<Props> = ({
                     <TooltipTrigger asChild>
                       <button
                         onClick={() => handleRemoveImage(idx)}
-                        className="absolute top-[-4px] right-[-4px] bg-foreground text-background p-1 rounded-full focus:outline-none border-4 border-secondary"
+                        className="absolute -top-2 -right-2 bg-foreground text-background p-1 rounded-full focus:outline-none border-4 border-secondary"
                       >
                         <X className="w-3 h-3" />
                       </button>
