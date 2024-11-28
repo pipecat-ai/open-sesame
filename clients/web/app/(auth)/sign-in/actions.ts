@@ -1,6 +1,6 @@
 "use server";
 
-import { LOGIN_COOKIE_KEY } from "@/lib/constants";
+import { EMAIL_COOKIE_KEY, LOGIN_COOKIE_KEY } from "@/lib/constants";
 import { getApiClient } from "@/lib/sesameApiClient";
 import { cookies } from "next/headers";
 
@@ -15,8 +15,12 @@ export async function login(email: string, password: string) {
       });
     if (ok && data.token) {
       const cookiez = await cookies();
+      const expires = Date.now() + 259200000;
       cookiez.set(LOGIN_COOKIE_KEY, data.token, {
-        expires: Date.now() + 259200000,
+        expires,
+      });
+      cookiez.set(EMAIL_COOKIE_KEY, email, {
+        expires,
       });
       return true;
     }

@@ -1,10 +1,10 @@
 "use client";
 
+import UserMenu from "@/app/(authenticated)/[workspaceId]/UserMenu";
 import PageTransitionLink from "@/components/PageTransitionLink";
 import QueryClientProvider, {
   queryClient,
 } from "@/components/QueryClientProvider";
-import SignOutButton from "@/components/SignOutButton";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -27,10 +27,11 @@ import {
 } from "react";
 import ConversationList from "./ConversationList";
 import SearchResults from "./SearchResults";
-import SidebarTitle from "./SidebarTitle";
+import WorkspaceMenu from "./WorkspaceMenu";
 
 interface SidebarProps {
   conversations: ConversationModel[];
+  email?: string;
   signOut?: boolean;
   workspace?: WorkspaceModel | null;
   workspaces?: WorkspaceModel[];
@@ -38,6 +39,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   conversations,
+  email,
   signOut = false,
   workspace,
   workspaces = [],
@@ -134,9 +136,20 @@ export default function Sidebar({
         ) : null}
       </QueryClientProvider>
 
-      {signOut && (
-        <SignOutButton className="sticky bottom-0 z-10 mt-auto">Sign out</SignOutButton>
-      )}
+      <div className="mt-auto sticky bottom-0 flex flex-col gap-4">
+        <WorkspaceMenu
+          className="bg-inherit mt-auto"
+          workspace={workspace}
+          workspaces={workspaces}
+        />
+
+        {signOut && (
+          <>
+            <Separator />
+            <UserMenu email={email ?? "My account"} />
+          </>
+        )}
+      </div>
     </>
   );
 
@@ -146,17 +159,8 @@ export default function Sidebar({
       <div className="lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetContent side="left" className="overflow-y-auto">
-            <SheetTitle asChild>
-              <SidebarTitle
-                className="bg-background -top-4"
-                onSwitchWorkspace={() => {
-                  setIsOpen(false);
-                }}
-                workspace={workspace}
-                workspaces={workspaces}
-              />
-            </SheetTitle>
-            <SheetDescription></SheetDescription>
+            <SheetTitle className="sr-only">Navigation</SheetTitle>
+            <SheetDescription className="absolute"></SheetDescription>
             <div className="flex flex-col gap-6 p-4 min-h-full">{content}</div>
           </SheetContent>
         </Sheet>
@@ -164,14 +168,7 @@ export default function Sidebar({
 
       {/* Desktop Sidebar */}
       <div className="hidden lg:block lg:w-[var(--sidebar-width)] bg-secondary sticky top-0 overflow-y-auto h-dvh">
-        <div className="flex flex-col gap-6 p-4 min-h-full">
-          <SidebarTitle
-            className="bg-secondary"
-            workspace={workspace}
-            workspaces={workspaces}
-          />
-          {content}
-        </div>
+        <div className="flex flex-col gap-6 p-4 pt-5 h-dvh">{content}</div>
       </div>
     </>
   );

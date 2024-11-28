@@ -2,6 +2,7 @@
 
 import DeleteWorkspaceModal from "@/app/(authenticated)/workspaces/DeleteWorkspaceModal";
 import ErrorPage from "@/components/ErrorPage";
+import { getEmail } from "@/lib/auth";
 import { WorkspaceWithConversations } from "@/lib/sesameApi";
 import { getWorkspaces } from "@/lib/workspaces";
 import React from "react";
@@ -28,10 +29,16 @@ export default async function WorkspacesLayout({
     );
   }
 
+  const email = await getEmail();
+
   return (
     <div className="lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
       {/* Sidebar */}
-      <Sidebar signOut={!process.env.SESAME_USER_TOKEN} workspaces={workspaces} />
+      <Sidebar
+        email={email}
+        signOut={!process.env.SESAME_USER_TOKEN}
+        workspaces={workspaces}
+      />
 
       {/* Main content area */}
       <div className="flex flex-col min-h-dvh w-full">

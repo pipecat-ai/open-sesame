@@ -1,7 +1,7 @@
 "use client";
 
+import UserMenu from "@/app/(authenticated)/[workspaceId]/UserMenu";
 import PageTransitionLink from "@/components/PageTransitionLink";
-import SignOutButton from "@/components/SignOutButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,11 +24,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface SidebarProps {
+  email?: string;
   signOut?: boolean;
   workspaces: WorkspaceModel[];
 }
 
-export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
+export default function Sidebar({
+  email,
+  signOut = false,
+  workspaces,
+}: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
@@ -151,11 +156,7 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
             No workspaces
           </li>
         )}
-        {signOut && (
-          <SignOutButton className="sticky bottom-0 z-10 mt-auto">
-            Sign out
-          </SignOutButton>
-        )}
+        {signOut && <UserMenu email={email} />}
       </ul>
     </div>
   );
