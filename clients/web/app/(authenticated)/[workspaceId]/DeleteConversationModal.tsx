@@ -63,7 +63,7 @@ export default function DeleteConversationModal({
   };
 
   const conversation = conversations.find(
-    (c) => c.conversation_id === conversationId
+    (c) => c.conversation_id === conversationId,
   );
 
   return (

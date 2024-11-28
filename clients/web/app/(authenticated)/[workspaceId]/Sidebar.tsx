@@ -91,7 +91,7 @@ export default function Sidebar({
           <PageTransitionLink
             href={`/${workspace.workspace_id}`}
             className={cn(
-              "flex items-center justify-center gap-3 px-3 py-2 rounded-full bg-transparent border border-input transition-colors text-base font-semibold hover:bg-secondary-foreground/[.05] focus-visible:bg-secondary-foreground/[.05] focus-visible:outline-primary"
+              "flex items-center justify-center gap-3 px-3 py-2 rounded-full bg-transparent border border-input transition-colors text-base font-semibold hover:bg-secondary-foreground/[.05] focus-visible:bg-secondary-foreground/[.05] focus-visible:outline-primary",
             )}
             onClick={() => setIsOpen(false)}
           >
@@ -157,7 +157,9 @@ export default function Sidebar({
           <SheetContent side="left" className="overflow-y-auto">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <SheetDescription className="absolute"></SheetDescription>
-            <div className="flex flex-col gap-6 p-4 pt-12 min-h-full">{content}</div>
+            <div className="flex flex-col gap-6 p-4 pt-12 min-h-full">
+              {content}
+            </div>
           </SheetContent>
         </Sheet>
       </div>

@@ -20,7 +20,7 @@ const SearchResults = memo(
         workspaceId={workspaceId}
       />
     );
-  }
+  },
 );
 SearchResults.displayName = "SearchResults";
 

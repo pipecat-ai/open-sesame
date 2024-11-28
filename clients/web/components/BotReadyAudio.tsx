@@ -14,7 +14,7 @@ export default function BotReadyAudio({ active }: Props) {
     useCallback(() => {
       if (!active) return;
       audioRef.current?.play();
-    }, [active])
+    }, [active]),
   );
 
   return (

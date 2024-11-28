@@ -27,19 +27,19 @@ export default function ChatMessages({
     RTVIEvent.BotStartedSpeaking,
     useCallback(() => {
       setIsBotSpeaking(true);
-    }, [])
+    }, []),
   );
   useRTVIClientEvent(
     RTVIEvent.BotStoppedSpeaking,
     useCallback(() => {
       setIsBotSpeaking(false);
-    }, [])
+    }, []),
   );
   useRTVIClientEvent(
     RTVIEvent.Disconnected,
     useCallback(() => {
       setIsBotSpeaking(false);
-    }, [])
+    }, []),
   );
 
   return (

@@ -62,7 +62,7 @@ export default function Sidebar({
             "flex gap-2 items-center px-3 py-2 rounded-full border border-input transition-colors hover:bg-input",
             {
               "bg-input": pathname === `/workspaces/new`,
-            }
+            },
           )}
           onClick={() => setIsOpen(false)}
         >
@@ -76,7 +76,7 @@ export default function Sidebar({
             "flex gap-2 items-center px-3 py-2 rounded-lg transition-colors hover:bg-input",
             {
               "bg-input": pathname === `/workspaces/services`,
-            }
+            },
           )}
           onClick={() => setIsOpen(false)}
         >
@@ -101,7 +101,7 @@ export default function Sidebar({
                   "grid grid-cols-[calc(100%-36px)_32px] gap-1 items-center p-2 overflow-hidden group",
                   {
                     "bg-input rounded-lg": isActive,
-                  }
+                  },
                 )}
               >
                 <PageTransitionLink
@@ -121,7 +121,7 @@ export default function Sidebar({
                       "flex-none group-hover:visible group-focus-within:visible aria-expanded:visible p-2",
                       {
                         invisible: !isActive,
-                      }
+                      },
                     )}
                   >
                     <EllipsisIcon size={16} />

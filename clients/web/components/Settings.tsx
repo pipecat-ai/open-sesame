@@ -51,18 +51,18 @@ export default function Settings({ conversationId, vision }: Props) {
           rtviClient?.initDevices().then(async () => {
             const mics = await rtviClient.getAllMics();
             rtviClient.updateMic(
-              rtviClient.selectedMic?.deviceId ?? mics[0]?.deviceId
+              rtviClient.selectedMic?.deviceId ?? mics[0]?.deviceId,
             );
             const cams = await rtviClient.getAllCams();
             rtviClient.updateCam(
-              rtviClient.selectedCam?.deviceId ?? cams[0]?.deviceId
+              rtviClient.selectedCam?.deviceId ?? cams[0]?.deviceId,
             );
           });
         })
         .catch(() => {
           setDeviceError(true);
         }),
-    [rtviClient, vision]
+    [rtviClient, vision],
   );
 
   useEffect(() => {
@@ -89,7 +89,9 @@ export default function Settings({ conversationId, vision }: Props) {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="flex flex-col" side="right">
-        <SheetTitle className="-m-6 mb-0 p-6 border-b border-b-input">Settings</SheetTitle>
+        <SheetTitle className="-m-6 mb-0 p-6 border-b border-b-input">
+          Settings
+        </SheetTitle>
         <SheetDescription className="absolute"></SheetDescription>
         <div className="flex-grow flex flex-col gap-6">
           {/* Data Settings */}
@@ -141,7 +143,10 @@ export default function Settings({ conversationId, vision }: Props) {
               >
                 <SelectTrigger className="w-full flex gap-2" id="microphone">
                   <MicIcon className="text-muted" size={24} />
-                  <SelectValue className="overflow-hidden text-ellipsis" placeholder="Select…" />
+                  <SelectValue
+                    className="overflow-hidden text-ellipsis"
+                    placeholder="Select…"
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {!loadingMics &&
@@ -185,7 +190,10 @@ export default function Settings({ conversationId, vision }: Props) {
                 >
                   <SelectTrigger className="w-full text-start" id="camera">
                     <WebcamIcon className="text-muted" size={24} />
-                    <SelectValue className="overflow-hidden text-ellipsis" placeholder="Select…" />
+                    <SelectValue
+                      className="overflow-hidden text-ellipsis"
+                      placeholder="Select…"
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {!loadingCams &&

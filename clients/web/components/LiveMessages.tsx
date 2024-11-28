@@ -101,7 +101,7 @@ export default function LiveMessages({
 
       setLiveMessages((liveMessages) => {
         const matchingMessageIdx = liveMessages.findIndex(
-          (m) => m.content.role === role && m.created_at === createdAtIso
+          (m) => m.content.role === role && m.created_at === createdAtIso,
         );
         const matchingMessage = liveMessages[matchingMessageIdx];
 
@@ -132,13 +132,13 @@ export default function LiveMessages({
 
         const updatedMessages = [...liveMessages];
         const prevText = normalizeMessageText(
-          updatedMessages[matchingMessageIdx]
+          updatedMessages[matchingMessageIdx],
         );
         const updatedMessage: LiveMessage = {
           ...updatedMessages[matchingMessageIdx],
           content: {
             content: addNewLinesBeforeCodeblocks(
-              replace ? text : prevText + text
+              replace ? text : prevText + text,
             ),
             role,
           },
@@ -148,7 +148,7 @@ export default function LiveMessages({
 
         return liveMessages
           .map((liveMessage, idx) =>
-            idx === matchingMessageIdx ? updatedMessage : liveMessage
+            idx === matchingMessageIdx ? updatedMessage : liveMessage,
           )
           .filter((m, idx, arr) => {
             const normalizedText = normalizeMessageText(m);
@@ -158,7 +158,7 @@ export default function LiveMessages({
           });
       });
     },
-    [conversationId, messages.length]
+    [conversationId, messages.length],
   );
 
   const firstBotResponseTime = useRef<Date>();
@@ -192,7 +192,7 @@ export default function LiveMessages({
         role: "assistant",
         text: "",
       });
-    }, [addMessageChunk])
+    }, [addMessageChunk]),
   );
 
   useRTVIClientEvent(
@@ -214,8 +214,8 @@ export default function LiveMessages({
           });
         }
       },
-      [addMessageChunk, structuredWorkspace.tts.interactionMode]
-    )
+      [addMessageChunk, structuredWorkspace.tts.interactionMode],
+    ),
   );
 
   useRTVIClientEvent(
@@ -246,7 +246,7 @@ export default function LiveMessages({
       addMessageChunk,
       revalidateAndRefresh,
       structuredWorkspace.tts.interactionMode,
-    ])
+    ]),
   );
 
   useRTVIClientEvent(
@@ -263,7 +263,7 @@ export default function LiveMessages({
         text: "",
         updatedAt: new Date(),
       });
-    }, [addMessageChunk, structuredWorkspace.tts.interactionMode])
+    }, [addMessageChunk, structuredWorkspace.tts.interactionMode]),
   );
 
   useRTVIClientEvent(
@@ -282,8 +282,8 @@ export default function LiveMessages({
           });
         }
       },
-      [addMessageChunk, structuredWorkspace.tts.interactionMode]
-    )
+      [addMessageChunk, structuredWorkspace.tts.interactionMode],
+    ),
   );
 
   useRTVIClientEvent(
@@ -299,7 +299,7 @@ export default function LiveMessages({
         text: "",
         updatedAt: new Date(),
       });
-    }, [addMessageChunk, structuredWorkspace.tts.interactionMode])
+    }, [addMessageChunk, structuredWorkspace.tts.interactionMode]),
   );
 
   useRTVIClientEvent(
@@ -314,7 +314,7 @@ export default function LiveMessages({
         role: "user",
         text: "",
       });
-    }, [addMessageChunk])
+    }, [addMessageChunk]),
   );
 
   useRTVIClientEvent(
@@ -322,9 +322,9 @@ export default function LiveMessages({
     useCallback(() => {
       userStoppedSpeakingTimeout.current = setTimeout(
         cleanupUserMessages,
-        5000
+        5000,
       );
-    }, [cleanupUserMessages])
+    }, [cleanupUserMessages]),
   );
 
   useRTVIClientEvent(
@@ -346,8 +346,8 @@ export default function LiveMessages({
           userStartedSpeakingTime.current = undefined;
         }
       },
-      [addMessageChunk]
-    )
+      [addMessageChunk],
+    ),
   );
 
   useRTVIClientEvent(RTVIEvent.Disconnected, revalidateAndRefresh);
@@ -360,13 +360,13 @@ export default function LiveMessages({
           revalidateAndRefresh();
         }
       },
-      [revalidateAndRefresh]
-    )
+      [revalidateAndRefresh],
+    ),
   );
 
   useEffect(() => {
     const handleUserTextMessage = (
-      content: Array<TextContent | ImageContent>
+      content: Array<TextContent | ImageContent>,
     ) => {
       isTextResponse.current = true;
       const now = new Date();
@@ -397,7 +397,7 @@ export default function LiveMessages({
 
   useLayoutEffect(() => {
     if (!autoscroll) return;
-    const scroller = getScrollableParent(document.querySelector('main'));
+    const scroller = getScrollableParent(document.querySelector("main"));
     if (!scroller) return;
     scroller.scrollTo({
       behavior: "smooth",

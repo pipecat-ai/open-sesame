@@ -88,7 +88,7 @@ export default function ConfigurationSection({
           onClose={() => setAddService(false)}
           onSaved={() => {
             refresh();
-            setAddService(false)
+            setAddService(false);
           }}
           services={availableServices}
           workspaces={[workspace]}
@@ -117,7 +117,11 @@ export default function ConfigurationSection({
                 {s.title}
               </ToggleGroupItem>
             ))}
-            <ToggleGroupItem className="gap-1" onClick={() => setAddService(true)} value="">
+            <ToggleGroupItem
+              className="gap-1"
+              onClick={() => setAddService(true)}
+              value=""
+            >
               <PlusIcon size={16} />
               Add
             </ToggleGroupItem>
@@ -217,7 +221,7 @@ export default function ConfigurationSection({
                           type="button"
                           onClick={() => {
                             const updatedPrompt = prompt.filter(
-                              (_, i) => i !== index
+                              (_, i) => i !== index,
                             );
                             setFormState((state) => ({
                               ...state,

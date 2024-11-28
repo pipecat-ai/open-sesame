@@ -107,7 +107,7 @@ export default function ConversationListItem({
         {
           "bg-secondary-foreground/[.05] font-medium": isActive,
           "hover:bg-input": !isEditing,
-        }
+        },
       )}
     >
       {isEditing ? (
@@ -162,7 +162,7 @@ export default function ConversationListItem({
                   "shrink-0 text-foreground/50 group-hover:visible group-focus-within:visible aria-expanded:visible hover:bg-transparent hover:text-foreground",
                   {
                     invisible: !isActive,
-                  }
+                  },
                 )}
                 size="icon"
                 variant="ghost"

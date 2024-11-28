@@ -177,7 +177,7 @@ export default function ChatMessage({ isSpeaking = false, message }: Props) {
                                     {line}
                                   </Fragment>
                                 ))
-                              : child
+                              : child,
                           )}
                         </p>
                       );
@@ -195,7 +195,7 @@ export default function ChatMessage({ isSpeaking = false, message }: Props) {
                         <code
                           className={cn(
                             className,
-                            "px-1 rounded-lg bg-accent text-accent-foreground break-words"
+                            "px-1 rounded-lg bg-accent text-accent-foreground break-words",
                           )}
                           {...props}
                         >
@@ -269,8 +269,8 @@ export default function ChatMessage({ isSpeaking = false, message }: Props) {
                 {copyState === "idle"
                   ? "Copy"
                   : copyState === "copied"
-                  ? "Copied!"
-                  : "Error while copying!"}
+                    ? "Copied!"
+                    : "Error while copying!"}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

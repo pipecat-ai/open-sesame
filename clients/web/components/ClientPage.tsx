@@ -61,13 +61,13 @@ export default function ClientPage({
             workspace_id: workspaceId,
           },
         },
-      })
+      }),
     );
   }, [conversationId, workspaceId]);
 
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const [showMessages, setShowMessages] = useState(
-    messages.length > 0 || Boolean(searchParams.get("v"))
+    messages.length > 0 || Boolean(searchParams.get("v")),
   );
 
   useLayoutEffect(() => {
@@ -77,7 +77,7 @@ export default function ClientPage({
       const scrollBottom =
         scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop;
       setShowScrollToBottom(
-        scroller.scrollHeight > scroller.clientHeight && scrollBottom > 150
+        scroller.scrollHeight > scroller.clientHeight && scrollBottom > 150,
       );
     };
     window.addEventListener("scroll", handleScroll);

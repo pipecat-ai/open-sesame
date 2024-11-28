@@ -8,7 +8,7 @@ export async function getAvailableServices() {
   const json = await response.json();
   if (!response.ok) {
     throw new Error(
-      `Error fetching available services: ${response.status} ${response.statusText}`
+      `Error fetching available services: ${response.status} ${response.statusText}`,
     );
   }
   return json as ServiceInfo[];
@@ -20,7 +20,7 @@ export async function getServices() {
   const json = await response.json();
   if (!response.ok) {
     throw new Error(
-      `Error fetching services: ${response.status} ${response.statusText}`
+      `Error fetching services: ${response.status} ${response.statusText}`,
     );
   }
   return json as ServiceModel[];
@@ -32,7 +32,10 @@ interface ServiceConfig {
   workspaceId?: string;
 }
 
-export async function syncWorkspaceServices(workspace: WorkspaceModel, apiKeys: Record<string, string>) {
+export async function syncWorkspaceServices(
+  workspace: WorkspaceModel,
+  apiKeys: Record<string, string>,
+) {
   const apiClient = await getApiClient();
   const services = await getServices();
 
@@ -50,14 +53,14 @@ export async function syncWorkspaceServices(workspace: WorkspaceModel, apiKeys: 
 
   for (const [serviceType, config] of Object.entries(map)) {
     const providerServices = services.filter(
-      (s) => s.service_provider === config.provider
+      (s) => s.service_provider === config.provider,
     );
 
     // Service with this API key already registered
     if (providerServices.some((s) => s.api_key === config.apiKey)) continue;
 
     const wsService = providerServices.find(
-      (s) => s.workspace_id === config.workspaceId
+      (s) => s.workspace_id === config.workspaceId,
     );
     // Service for this workspace exists and need to be updated
     if (wsService) {
@@ -65,7 +68,7 @@ export async function syncWorkspaceServices(workspace: WorkspaceModel, apiKeys: 
         wsService.service_id,
         {
           api_key: config.apiKey,
-        }
+        },
       );
       continue;
     }

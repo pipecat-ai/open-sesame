@@ -1,4 +1,9 @@
-export type LLMProvider = "anthropic" | "together" | "groq" | "openai" | "google";
+export type LLMProvider =
+  | "anthropic"
+  | "together"
+  | "groq"
+  | "openai"
+  | "google";
 
 export type LLMMessageRole = "system" | "user" | "assistant";
 
@@ -92,12 +97,12 @@ const llmModels: LLMModel[] = [
   {
     service: "google",
     model: "gemini-1.5-flash",
-    label: "Gemini 1.5 Flash"
+    label: "Gemini 1.5 Flash",
   },
   {
     service: "google",
     model: "gemini-1.5-pro",
-    label: "Gemini 1.5 Pro"
+    label: "Gemini 1.5 Pro",
   },
 ];
 

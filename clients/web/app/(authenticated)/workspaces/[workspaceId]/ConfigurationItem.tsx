@@ -17,7 +17,7 @@ export default function ConfigurationItem({
         "grid grid-cols-1 sm:grid-cols-[1fr_2fr] gap-0 sm:gap-2",
         `items-${align}`,
         border ? "border border-transparent border-t-border" : "",
-        "[&>*]:p-2"
+        "[&>*]:p-2",
       )}
     >
       {children}

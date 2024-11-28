@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import emitter from "@/lib/eventEmitter";
@@ -59,7 +59,7 @@ export default function DeleteWorkspaceModal() {
   const handleClose = () => {
     setWorkspace(null);
     setIsDeleting(false);
-  }
+  };
 
   if (!workspace) return null;
 

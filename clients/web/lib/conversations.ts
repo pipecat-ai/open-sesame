@@ -8,7 +8,7 @@ const PAGE_SIZE = 20;
 
 export async function getConversations(
   workspaceId: string,
-  offset: number = 0
+  offset: number = 0,
 ) {
   if (!workspaceId) return [];
   try {
@@ -19,7 +19,7 @@ export async function getConversations(
         {
           limit: PAGE_SIZE,
           offset: offset * PAGE_SIZE,
-        }
+        },
       );
     if (response.ok) {
       const json = await response.json();
@@ -28,7 +28,7 @@ export async function getConversations(
       return [];
     } else {
       throw new Error(
-        `Error fetching conversations: ${response.status} ${response.statusText}`
+        `Error fetching conversations: ${response.status} ${response.statusText}`,
       );
     }
   } catch (e) {
@@ -40,7 +40,7 @@ export async function getConversations(
 export async function searchConversations(
   workspaceId: string,
   query: string,
-  offset: number = 0
+  offset: number = 0,
 ) {
   try {
     const apiClient = await getApiClient();
@@ -51,7 +51,7 @@ export async function searchConversations(
           search_term: query,
           limit: PAGE_SIZE,
           offset: offset * PAGE_SIZE,
-        }
+        },
       );
     if (response.ok) {
       const json = await response.json();
@@ -60,14 +60,14 @@ export async function searchConversations(
         .filter(
           (conversation, idx, arr) =>
             arr.findIndex(
-              (c) => c.conversation_id === conversation.conversation_id
-            ) === idx
+              (c) => c.conversation_id === conversation.conversation_id,
+            ) === idx,
         );
     } else if (response.status === 404) {
       return [];
     } else {
       throw new Error(
-        `Error fetching conversations: ${response.status} ${response.statusText}`
+        `Error fetching conversations: ${response.status} ${response.statusText}`,
       );
     }
   } catch (e) {
@@ -86,7 +86,7 @@ export async function getConversation(conversationId: string) {
     const apiClient = await getApiClient();
     const response =
       await apiClient.api.getConversationAndMessagesApiConversationsConversationIdMessagesGet(
-        conversationId
+        conversationId,
       );
     if (response.ok) {
       const json = await response.json();
@@ -95,7 +95,7 @@ export async function getConversation(conversationId: string) {
       return null;
     } else {
       throw new Error(
-        `Error fetching conversation: ${response.status} ${response.statusText}`
+        `Error fetching conversation: ${response.status} ${response.statusText}`,
       );
     }
   } catch (e) {

@@ -93,7 +93,7 @@ const ChatControls: React.FC<Props> = ({
   const searchParams = useSearchParams();
 
   const [isVoiceMode, setIsVoiceMode] = useState(
-    Boolean(searchParams.get("v"))
+    Boolean(searchParams.get("v")),
   ); // Track whether we're in voice mode
   const [isCamMuted, setIsCamMuted] = useState(!vision);
   const [isMicMuted, setIsMicMuted] = useState(false);
@@ -141,7 +141,7 @@ const ChatControls: React.FC<Props> = ({
           image_url: {
             url,
           },
-        }))
+        })),
       );
       setPreviewUrls([]);
     }
@@ -207,7 +207,7 @@ const ChatControls: React.FC<Props> = ({
       }
       return null;
     },
-    [push, rtviClient, workspaceId]
+    [push, rtviClient, workspaceId],
   );
 
   const invalidateAndRedirect = async (redirect: string) => {
@@ -276,7 +276,7 @@ const ChatControls: React.FC<Props> = ({
         handleSwitchToTextMode();
       }
     },
-    [conversationId, createConversation, handleSwitchToTextMode, rtviClient]
+    [conversationId, createConversation, handleSwitchToTextMode, rtviClient],
   );
 
   useEffect(() => {
@@ -294,8 +294,8 @@ const ChatControls: React.FC<Props> = ({
         setError("An error occurred during the voice session.");
         handleSwitchToTextMode();
       },
-      [handleSwitchToTextMode]
-    )
+      [handleSwitchToTextMode],
+    ),
   );
 
   // Toggle between cam mute and unmute in voice mode
@@ -343,7 +343,7 @@ const ChatControls: React.FC<Props> = ({
       if (notifyUser) {
         toast({
           title: `Exceeded maximum allowed attachment size of ${getHumanReadableFilesize(
-            MAX_TOTAL_FILE_SIZE
+            MAX_TOTAL_FILE_SIZE,
           )}`,
         });
       }
@@ -444,8 +444,8 @@ const ChatControls: React.FC<Props> = ({
             {isMicMuted
               ? "Tap to unmute"
               : processingAction
-              ? "Thinking…"
-              : "Listening"}
+                ? "Thinking…"
+                : "Listening"}
           </span>
         </div>
       ) : processingAction ? (
@@ -554,7 +554,7 @@ const ChatControls: React.FC<Props> = ({
                   "max-w-80": videoSize === "large",
                   "left-0": videoPlacement === "left",
                   "right-0": videoPlacement === "right",
-                }
+                },
               )}
             >
               <RTVIClientVideo
@@ -617,7 +617,7 @@ const ChatControls: React.FC<Props> = ({
                             {
                               "bg-destructive hover:bg-destructive text-destructive-foreground":
                                 isCamMuted,
-                            }
+                            },
                           )}
                         >
                           <ToggledCamIcon className="w-6 h-6 m-auto" />
@@ -642,7 +642,7 @@ const ChatControls: React.FC<Props> = ({
                           {
                             "bg-destructive hover:bg-destructive text-destructive-foreground":
                               isMicMuted,
-                          }
+                          },
                         )}
                       >
                         <ToggledMicIcon className="w-6 h-6 m-auto" />
@@ -697,7 +697,7 @@ const ChatControls: React.FC<Props> = ({
                         "rounded-full bg-foreground w-8 h-8 absolute left-1 top-1 transition-transform",
                         {
                           "translate-x-8": isVoiceMode,
-                        }
+                        },
                       )}
                     />
                     <Keyboard
@@ -705,7 +705,7 @@ const ChatControls: React.FC<Props> = ({
                         "w-6 h-6 z-10 text-background transition-colors",
                         {
                           "text-muted-foreground": isVoiceMode,
-                        }
+                        },
                       )}
                     />
                     <Speech
@@ -713,7 +713,7 @@ const ChatControls: React.FC<Props> = ({
                         "w-6 h-6 z-10 text-background transition-colors",
                         {
                           "text-muted-foreground": !isVoiceMode,
-                        }
+                        },
                       )}
                     />
                   </button>
