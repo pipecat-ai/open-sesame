@@ -51,6 +51,20 @@ interface MessageChunk {
   updatedAt?: Date;
 }
 
+function getScrollableParent(element: HTMLElement | null) {
+  while (element) {
+    const style = window.getComputedStyle(element);
+    if (
+      (style.overflowY === "auto" || style.overflowY === "scroll") &&
+      element.scrollHeight > element.clientHeight
+    ) {
+      return element;
+    }
+    element = element.parentElement;
+  }
+  return null; // or document as a fallback
+}
+
 export default function LiveMessages({
   autoscroll,
   conversationId,
@@ -383,11 +397,11 @@ export default function LiveMessages({
 
   useLayoutEffect(() => {
     if (!autoscroll) return;
-    const scroller = document.scrollingElement;
+    const scroller = getScrollableParent(document.querySelector('main'));
     if (!scroller) return;
     scroller.scrollTo({
       behavior: "smooth",
-      top: document.documentElement.scrollHeight,
+      top: scroller.scrollHeight,
     });
   }, [autoscroll, liveMessages]);
 
