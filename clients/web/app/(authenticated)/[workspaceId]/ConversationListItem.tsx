@@ -150,7 +150,7 @@ export default function ConversationListItem({
         <>
           <PageTransitionLink
             href={`/${workspaceId}/c/${conversation.conversation_id}`}
-            className="text-base flex-grow px-3 py-2 text-ellipsis text-nowrap overflow-hidden w-full"
+            className="text-base flex-grow px-3 py-2 text-ellipsis text-nowrap overflow-hidden w-full focus-visible:outline-primary focus-visible:outline-1"
             onClick={onClick}
           >
             {title}

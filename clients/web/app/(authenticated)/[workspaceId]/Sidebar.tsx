@@ -16,7 +16,7 @@ import {
 import emitter from "@/lib/eventEmitter";
 import { ConversationModel, WorkspaceModel } from "@/lib/sesameApi";
 import { cn } from "@/lib/utils";
-import { Edit, LoaderCircleIcon } from "lucide-react";
+import { EditIcon, LoaderCircleIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Suspense,
@@ -91,22 +91,18 @@ export default function Sidebar({
           <PageTransitionLink
             href={`/${workspace.workspace_id}`}
             className={cn(
-              "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-secondary-foreground/[.05]",
-              {
-                "bg-input": pathname === `/${workspace.workspace_id}`,
-              }
+              "flex items-center justify-center gap-3 px-3 py-2 rounded-full bg-transparent border border-input transition-colors text-base font-semibold hover:bg-secondary-foreground/[.05] focus-visible:bg-secondary-foreground/[.05] focus-visible:outline-primary"
             )}
             onClick={() => setIsOpen(false)}
           >
-            <Edit size={21} />
-            New chat
+            <EditIcon size={24} />
+            New conversation
           </PageTransitionLink>
         )}
       </div>
 
-      <Separator />
-
       <Input
+        className="bg-background shadow-none border-none"
         type="search"
         placeholder="Search conversations…"
         value={search}

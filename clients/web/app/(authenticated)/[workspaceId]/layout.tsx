@@ -49,7 +49,7 @@ export default async function WorkspaceLayout({
   const email = await getEmail();
 
   return (
-    <div className="lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
+    <div className="bg-secondary lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
       {/* Sidebar */}
       <Sidebar
         conversations={workspace.conversations}
@@ -60,7 +60,7 @@ export default async function WorkspaceLayout({
       />
 
       {/* Main content area */}
-      <div className="flex flex-col min-h-dvh w-full bg-background">
+      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-auto lg:rounded-l-3xl">
         {/* Navbar */}
         <Navbar
           currentModelValue={structuredWorkspaceData.llm.model.value}
