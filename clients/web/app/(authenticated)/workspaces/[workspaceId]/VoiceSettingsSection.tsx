@@ -87,12 +87,12 @@ export default function VoiceSettingsSection({
 
       {/* TTS Provider */}
       <fieldset>
-        <ConfigurationItem>
+        <ConfigurationItem align="start">
           <legend className="text-base font-semibold">TTS Provider</legend>
           <ToggleGroup
             type="single"
             variant="outline"
-            className="justify-start"
+            className="flex-wrap justify-start"
             value={defaultVoice.ttsProvider}
             onValueChange={handleProviderChange}
           >
@@ -102,6 +102,7 @@ export default function VoiceSettingsSection({
                 id={s.service_id}
                 value={s.service_provider!}
                 aria-label={s.title}
+                className="text-nowrap"
               >
                 {s.title}
               </ToggleGroupItem>

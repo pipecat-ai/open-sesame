@@ -32,7 +32,7 @@ export default async function WorkspacesLayout({
   const email = await getEmail();
 
   return (
-    <div className="lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
+    <div className="bg-secondary lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
       {/* Sidebar */}
       <Sidebar
         email={email}
@@ -41,7 +41,7 @@ export default async function WorkspacesLayout({
       />
 
       {/* Main content area */}
-      <div className="flex flex-col min-h-dvh w-full">
+      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-auto lg:rounded-l-3xl">
         <Navbar />
 
         {/* Page content */}

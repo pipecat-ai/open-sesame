@@ -1,5 +1,6 @@
 "use client";
 
+import PageTransitionLink from "@/components/PageTransitionLink";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +13,6 @@ import {
 import emitter from "@/lib/eventEmitter";
 import { WorkspaceModel } from "@/lib/sesameApi";
 import { BoxIcon, CheckIcon, LayoutGridIcon } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface WorkspaceMenuProps {
@@ -67,13 +67,13 @@ const WorkspaceMenu = ({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link
+            <PageTransitionLink
               href="/workspaces"
               className="flex items-center justify-between gap-4 w-full"
             >
               Manage workspaces…
               <LayoutGridIcon size={16} />
-            </Link>
+            </PageTransitionLink>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -157,7 +157,7 @@ export default function Sidebar({
           <SheetContent side="left" className="overflow-y-auto">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <SheetDescription className="absolute"></SheetDescription>
-            <div className="flex flex-col gap-6 p-4 min-h-full">{content}</div>
+            <div className="flex flex-col gap-6 p-4 pt-12 min-h-full">{content}</div>
           </SheetContent>
         </Sheet>
       </div>

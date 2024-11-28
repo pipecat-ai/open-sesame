@@ -96,13 +96,13 @@ export default function ConfigurationSection({
       )}
       {/* LLM Provider */}
       <fieldset>
-        <ConfigurationItem>
+        <ConfigurationItem align="start">
           <legend className="text-base font-semibold">LLM Provider</legend>
 
           <ToggleGroup
             type="single"
             variant="outline"
-            className="justify-start"
+            className="justify-start flex-wrap"
             value={model.llmProvider}
             onValueChange={handleProviderChange}
           >
@@ -112,6 +112,7 @@ export default function ConfigurationSection({
                 id={s.service_id}
                 value={s.service_provider!}
                 aria-label={s.title}
+                className="text-nowrap"
               >
                 {s.title}
               </ToggleGroupItem>

@@ -53,19 +53,13 @@ export default function Sidebar({
 
   const hasWorkspaces = workspaces.length > 0;
 
-  const getContent = (hasTitle: boolean) => (
-    <div className="flex flex-col gap-6 p-4 sticky top-0 overflow-y-auto h-dvh">
-      {hasTitle && (
-        <h2 className="text-xl font-semibold -m-4 mb-0 p-4 sticky -top-4 bg-secondary shadow-md z-10">
-          Workspaces
-        </h2>
-      )}
-
-      <div className="space-y-1">
+  const getContent = () => (
+    <div className="bg-inherit flex flex-col gap-6 p-4 sticky top-0 overflow-y-auto h-full">
+      <div className="flex flex-col gap-1">
         <PageTransitionLink
           href="/workspaces/new"
           className={cn(
-            "flex gap-2 items-center px-3 py-2 rounded-lg transition-colors hover:bg-input",
+            "flex gap-2 items-center px-3 py-2 rounded-full border border-input transition-colors hover:bg-input",
             {
               "bg-input": pathname === `/workspaces/new`,
             }
@@ -73,7 +67,7 @@ export default function Sidebar({
           onClick={() => setIsOpen(false)}
         >
           <SquarePlusIcon size={16} />
-          Create new workspaces
+          Create new workspace
         </PageTransitionLink>
 
         <PageTransitionLink
@@ -156,8 +150,13 @@ export default function Sidebar({
             No workspaces
           </li>
         )}
-        {signOut && <UserMenu email={email} />}
       </ul>
+
+      <div className="mt-auto sticky bottom-0 bg-inherit">
+        <div className="bg-inherit -m-4 p-4">
+          {signOut && <UserMenu email={email} />}
+        </div>
+      </div>
     </div>
   );
 
@@ -166,19 +165,17 @@ export default function Sidebar({
       {/* Mobile Sidebar using Sheet component */}
       <div className="lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetContent className="bg-secondary" side="left">
-            <SheetTitle className="-m-4 mb-0 p-4 sticky top-0 bg-background z-10 shadow-md">
-              Workspaces
-            </SheetTitle>
+          <SheetContent className="bg-secondary pt-16" side="left">
+            <SheetTitle className="sr-only">Workspaces</SheetTitle>
             <SheetDescription></SheetDescription>
-            {getContent(false)}
+            {getContent()}
           </SheetContent>
         </Sheet>
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block lg:w-[var(--sidebar-width)] bg-secondary">
-        {getContent(true)}
+      <div className="hidden lg:block lg:w-[var(--sidebar-width)] bg-secondary h-dvh">
+        {getContent()}
       </div>
     </>
   );
