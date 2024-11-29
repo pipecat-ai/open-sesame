@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${dmMono.variable} antialiased overflow-y-auto overflow-x-hidden relative h-svh`}
+        className={`${dmSans.variable} ${dmMono.variable} antialiased overflow-hidden relative h-svh`}
       >
         {children}
         <Toaster />

@@ -156,7 +156,7 @@ export default function ClientPage({
       <QueryClientProvider>
         <PageRefresher />
         <div
-          className={cn("flex flex-col justify-between flex-grow", {
+          className={cn("flex-grow grid grid-cols-1 grid-rows-[1fr_min-content]", {
             "animate-appear": animate,
           })}
         >
@@ -212,14 +212,14 @@ export default function ClientPage({
           </div>
 
           {/* Chat controls */}
-          <div className="bg-background sticky bottom-4 z-10">
+          <div className="flex-none bg-background sticky bottom-0 w-full z-10">
             <ChatControls
               conversationId={conversationId}
               vision={structuredWorkspace.botProfile === "vision"}
               workspaceId={workspaceId}
             />
             {/* Prevents scroll content from showing up below chat controls */}
-            <div className="h-4 bg-background absolute top-full left-0 w-full" />
+            <div className="h-4 bg-background w-full" />
           </div>
         </div>
 

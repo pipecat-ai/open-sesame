@@ -272,7 +272,7 @@ export default function ConfigurationForm({
 
   return (
     <form
-      className="animate-appear p-4 flex flex-col gap-6"
+      className="animate-appear flex flex-col gap-6"
       onSubmit={handleSubmit}
     >
       {workspace.workspace_id !== "new" && (

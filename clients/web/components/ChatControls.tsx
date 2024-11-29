@@ -19,8 +19,7 @@ import {
   PaperclipIcon,
   Speech,
   TriangleAlertIcon,
-  VideoIcon,
-  VideoOffIcon,
+  WebcamIcon,
   X,
 } from "lucide-react";
 import Image from "next/image";
@@ -93,7 +92,7 @@ const ChatControls: React.FC<Props> = ({
   const searchParams = useSearchParams();
 
   const [isVoiceMode, setIsVoiceMode] = useState(
-    Boolean(searchParams.get("v")),
+    Boolean(searchParams.get("v"))
   ); // Track whether we're in voice mode
   const [isCamMuted, setIsCamMuted] = useState(!vision);
   const [isMicMuted, setIsMicMuted] = useState(false);
@@ -141,7 +140,7 @@ const ChatControls: React.FC<Props> = ({
           image_url: {
             url,
           },
-        })),
+        }))
       );
       setPreviewUrls([]);
     }
@@ -207,7 +206,7 @@ const ChatControls: React.FC<Props> = ({
       }
       return null;
     },
-    [push, rtviClient, workspaceId],
+    [push, rtviClient, workspaceId]
   );
 
   const invalidateAndRedirect = async (redirect: string) => {
@@ -276,7 +275,7 @@ const ChatControls: React.FC<Props> = ({
         handleSwitchToTextMode();
       }
     },
-    [conversationId, createConversation, handleSwitchToTextMode, rtviClient],
+    [conversationId, createConversation, handleSwitchToTextMode, rtviClient]
   );
 
   useEffect(() => {
@@ -294,8 +293,8 @@ const ChatControls: React.FC<Props> = ({
         setError("An error occurred during the voice session.");
         handleSwitchToTextMode();
       },
-      [handleSwitchToTextMode],
-    ),
+      [handleSwitchToTextMode]
+    )
   );
 
   // Toggle between cam mute and unmute in voice mode
@@ -343,7 +342,7 @@ const ChatControls: React.FC<Props> = ({
       if (notifyUser) {
         toast({
           title: `Exceeded maximum allowed attachment size of ${getHumanReadableFilesize(
-            MAX_TOTAL_FILE_SIZE,
+            MAX_TOTAL_FILE_SIZE
           )}`,
         });
       }
@@ -371,12 +370,9 @@ const ChatControls: React.FC<Props> = ({
     setStartIndex(0);
   }, [previewUrls.length]);
 
-  const isReadyToSpeak = transportState === "ready";
-
   const feedbackClassName =
     "bg-gradient-to-t from-background absolute w-full bottom-full pt-4 pb-2 flex gap-2 items-center justify-center z-10";
 
-  const ToggledCamIcon = isCamMuted ? VideoOffIcon : VideoIcon;
   const ToggledMicIcon = isMicMuted ? MicOffIcon : MicIcon;
 
   const camTrack = useRTVIClientMediaTrack("video", "local");
@@ -444,9 +440,16 @@ const ChatControls: React.FC<Props> = ({
             {isMicMuted
               ? "Tap to unmute"
               : processingAction
-                ? "Thinking…"
-                : "Listening"}
+              ? "Thinking…"
+              : "Listening"}
           </span>
+          {endDate && (
+            <div>
+              <span className="select-none tabular-nums font-mono">
+                <ExpiryCountdown endDate={endDate} />
+              </span>
+            </div>
+          )}
         </div>
       ) : processingAction ? (
         <div className={feedbackClassName}>
@@ -525,7 +528,7 @@ const ChatControls: React.FC<Props> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  className="rounded-full relative p-2 h-10 w-10 bg-transparent shadow-none"
+                  className="rounded-full relative p-2 h-10 w-10 bg-transparent shadow-none mr-auto"
                   size="icon"
                   variant="secondary"
                 >
@@ -540,7 +543,7 @@ const ChatControls: React.FC<Props> = ({
                   />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-secondary text-secondary-foreground">
+              <TooltipContent className="bg-background text-foreground shadow-sm">
                 Attach images
               </TooltipContent>
             </Tooltip>
@@ -554,7 +557,7 @@ const ChatControls: React.FC<Props> = ({
                   "max-w-80": videoSize === "large",
                   "left-0": videoPlacement === "left",
                   "right-0": videoPlacement === "right",
-                },
+                }
               )}
             >
               <RTVIClientVideo
@@ -601,9 +604,9 @@ const ChatControls: React.FC<Props> = ({
             </div>
           )}
 
-          <div className="flex-grow flex items-end gap-3 relative">
+          <div className="flex items-end gap-3 relative ml-auto">
             {isVoiceMode && (
-              <div className="w-full flex items-center gap-2 p-1 pe-4">
+              <div className="flex items-center gap-2 p-1 pe-4">
                 {/* Cam button for mute/unmute */}
                 {vision && (
                   <TooltipProvider>
@@ -615,15 +618,15 @@ const ChatControls: React.FC<Props> = ({
                           className={cn(
                             "p-1 rounded-full focus:outline-none hover:bg-secondary",
                             {
-                              "bg-destructive hover:bg-destructive text-destructive-foreground":
-                                isCamMuted,
-                            },
+                              "bg-primary hover:bg-primary text-primary-foreground":
+                                !isCamMuted,
+                            }
                           )}
                         >
-                          <ToggledCamIcon className="w-6 h-6 m-auto" />
+                          <WebcamIcon className="w-6 h-6 m-auto" />
                         </button>
                       </TooltipTrigger>
-                      <TooltipContent className="bg-secondary text-secondary-foreground">
+                      <TooltipContent className="bg-background text-foreground shadow-sm">
                         {isCamMuted ? "Turn on camera" : "Turn off camera"}
                       </TooltipContent>
                     </Tooltip>
@@ -638,45 +641,33 @@ const ChatControls: React.FC<Props> = ({
                         type="button"
                         onClick={handleMicToggle}
                         className={cn(
-                          "p-1 rounded-full focus:outline-none hover:bg-secondary",
+                          "p-1 rounded-full focus:outline-none hover:bg-secondary flex gap-1 items-center w-24",
                           {
                             "bg-destructive hover:bg-destructive text-destructive-foreground":
                               isMicMuted,
-                          },
+                          }
                         )}
                       >
                         <ToggledMicIcon className="w-6 h-6 m-auto" />
+                        {isMicMuted ? (
+                          <span className="font-semibold uppercase">Muted</span>
+                        ) : (
+                          <VoiceVisualizer
+                            backgroundColor="transparent"
+                            barColor={isMicMuted ? "gray" : "black"}
+                            barGap={4}
+                            barWidth={8}
+                            barMaxHeight={20}
+                            participantType="local"
+                          />
+                        )}
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-secondary text-secondary-foreground">
+                    <TooltipContent className="bg-background text-foreground shadow-sm">
                       {isMicMuted ? "Unmute microphone" : "Mute microphone"}
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-
-                {/* Voice Indicator when microphone is active and not muted */}
-                {isReadyToSpeak && !isMicMuted ? (
-                  <VoiceVisualizer
-                    backgroundColor="transparent"
-                    barColor={isMicMuted ? "gray" : "black"}
-                    barGap={4}
-                    barWidth={8}
-                    barMaxHeight={20}
-                    participantType="local"
-                  />
-                ) : isMicMuted ? null : (
-                  <div className="w-5 h-5 animate-spin">
-                    <LoaderCircle size={20} />
-                  </div>
-                )}
-
-                {endDate && (
-                  <div className="ml-auto justify-self-end">
-                    <span className="select-none tabular-nums font-mono">
-                      <ExpiryCountdown endDate={endDate} />
-                    </span>
-                  </div>
-                )}
               </div>
             )}
 
@@ -690,14 +681,14 @@ const ChatControls: React.FC<Props> = ({
                         : () => handleSwitchToVoiceMode()
                     }
                     type="button"
-                    className="bg-background relative flex gap-2 p-2 rounded-full border border-secondary focus:outline-none ml-auto"
+                    className="bg-background relative flex gap-2 p-2 rounded-full border border-secondary focus:outline-none"
                   >
                     <span
                       className={cn(
                         "rounded-full bg-foreground w-8 h-8 absolute left-1 top-1 transition-transform",
                         {
                           "translate-x-8": isVoiceMode,
-                        },
+                        }
                       )}
                     />
                     <Keyboard
@@ -705,7 +696,7 @@ const ChatControls: React.FC<Props> = ({
                         "w-6 h-6 z-10 text-background transition-colors",
                         {
                           "text-muted-foreground": isVoiceMode,
-                        },
+                        }
                       )}
                     />
                     <Speech
@@ -713,14 +704,14 @@ const ChatControls: React.FC<Props> = ({
                         "w-6 h-6 z-10 text-background transition-colors",
                         {
                           "text-muted-foreground": !isVoiceMode,
-                        },
+                        }
                       )}
                     />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
                   align="center"
-                  className="bg-secondary text-secondary-foreground"
+                  className="bg-background text-foreground shadow-sm"
                 >
                   Toggle conversation mode
                 </TooltipContent>

@@ -45,7 +45,7 @@ export default async function WorkspacesLayout({
         <Navbar />
 
         {/* Page content */}
-        <main className="relative flex-grow mx-auto max-w-3xl w-full flex flex-col">
+        <main className="relative flex-grow mx-auto max-w-3xl w-full flex flex-col px-4 py-10">
           {children}
         </main>
       </div>
