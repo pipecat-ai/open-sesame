@@ -98,9 +98,9 @@ export default function Sidebar({
               <li
                 key={workspace.workspace_id}
                 className={cn(
-                  "grid grid-cols-[calc(100%-36px)_32px] gap-1 items-center p-2 overflow-hidden group",
+                  "grid grid-cols-[calc(100%-36px)_32px] gap-1 items-center p-2 overflow-hidden group rounded-lg transition-colors hover:bg-input focus-visible:bg-input",
                   {
-                    "bg-input rounded-lg": isActive,
+                    "bg-secondary-foreground/[.05] font-medium": isActive,
                   },
                 )}
               >
