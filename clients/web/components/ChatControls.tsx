@@ -9,7 +9,6 @@ import {
   ArrowLeftToLineIcon,
   ArrowRightToLineIcon,
   ArrowUpIcon,
-  Keyboard,
   LoaderCircle,
   LoaderCircleIcon,
   Maximize2Icon,
@@ -21,6 +20,7 @@ import {
   TriangleAlertIcon,
   WebcamIcon,
   X,
+  XIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -377,6 +377,11 @@ const ChatControls: React.FC<Props> = ({
 
   const camTrack = useRTVIClientMediaTrack("video", "local");
 
+  const isConnecting =
+    transportState === "authenticating" ||
+    transportState === "connecting" ||
+    transportState === "connected";
+
   return (
     <div className="relative w-full px-4">
       <BotReadyAudio active={isVoiceMode} />
@@ -427,9 +432,7 @@ const ChatControls: React.FC<Props> = ({
           <TriangleAlertIcon />
           <span>{error}</span>
         </div>
-      ) : transportState === "authenticating" ||
-        transportState === "connecting" ||
-        transportState === "connected" ? (
+      ) : isConnecting ? (
         <div className={feedbackClassName}>
           <LoaderCircle className="animate-spin" />
           <span>Connecting…</span>
@@ -457,7 +460,7 @@ const ChatControls: React.FC<Props> = ({
         </div>
       ) : null}
 
-      <div className="bg-secondary rounded-3xl flex flex-col gap-1 p-1">
+      <div className="bg-secondary rounded-3xl flex flex-col gap-1 p-2">
         {/* Image Preview (if an image is selected) */}
         {previewUrls.length > 0 && (
           <div className="relative w-full flex justify-start gap-2 mt-2 px-2">
@@ -497,7 +500,7 @@ const ChatControls: React.FC<Props> = ({
 
         <form
           ref={formRef}
-          className="relative w-full rounded-3xl ps-4 pe-10"
+          className="relative w-full flex ps-4"
           id="text-chat-form"
           onSubmit={handleTextSubmit}
         >
@@ -512,208 +515,212 @@ const ChatControls: React.FC<Props> = ({
             rows={text.split("\n").length}
           />
           <Button
-            className="absolute bg-background h-8 w-8 p-0 right-1 top-1/2 -translate-y-1/2 rounded-full"
+            className={cn(
+              "flex-none bg-background rounded-full scale-0 opacity-0 transition-all",
+              {
+                "scale-100 opacity-100": text,
+              }
+            )}
             size="icon"
-            variant="secondary"
+            variant="outline"
             type="submit"
           >
-            <ArrowUpIcon size={16} />
+            <ArrowUpIcon size={24} />
           </Button>
         </form>
 
-        {/* Chat Controls */}
-        <div className="flex items-end gap-3 w-full">
-          {/* Image Button (File picker with camera support on mobile) */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  className="rounded-full relative p-2 h-10 w-10 bg-transparent shadow-none mr-auto"
-                  size="icon"
-                  variant="secondary"
-                >
-                  <PaperclipIcon />
-                  {/* File input (visually hidden) */}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="absolute inset-0 opacity-0 file:cursor-pointer file:inset-0 file:absolute"
-                    onChange={handleImageChange}
-                  />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="bg-background text-foreground shadow-sm">
-                Attach images
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {vision && isVoiceMode && !isCamMuted && (
-            <div
-              className={cn(
-                "absolute z-20 bottom-full -translate-y-2 max-w-40 bg-secondary rounded-md aspect-video overflow-hidden transition-all",
-                {
-                  "max-w-80": videoSize === "large",
-                  "left-0": videoPlacement === "left",
-                  "right-0": videoPlacement === "right",
-                }
-              )}
-            >
-              <RTVIClientVideo
-                participant="local"
-                fit="cover"
-                className="w-full h-full"
-              />
-              {!camTrack && (
-                <div className="absolute top-0 left-0 z-10 w-full h-full flex items-center justify-center">
-                  <LoaderCircleIcon className="animate-spin" size={16} />
-                </div>
-              )}
-              <Button
-                className="absolute top-1 right-1"
-                size="icon"
-                variant="ghost"
-                onClick={() =>
-                  setVideoSize((vs) => (vs === "small" ? "large" : "small"))
-                }
-              >
-                {videoSize === "small" ? (
-                  <Maximize2Icon size={16} />
-                ) : (
-                  <Minimize2Icon size={16} />
-                )}
-              </Button>
-              <Button
-                className={cn("absolute bottom-1", {
-                  "right-1": videoPlacement === "left",
-                  "left-1": videoPlacement === "right",
-                })}
-                size="icon"
-                variant="ghost"
-                onClick={() =>
-                  setVideoPlacement((vp) => (vp === "left" ? "right" : "left"))
-                }
-              >
-                {videoPlacement === "left" ? (
-                  <ArrowRightToLineIcon size={16} />
-                ) : (
-                  <ArrowLeftToLineIcon size={16} />
-                )}
-              </Button>
-            </div>
-          )}
-
-          <div className="flex items-end gap-3 relative ml-auto">
-            {isVoiceMode && (
-              <div className="flex items-center gap-2 p-1 pe-4">
-                {/* Cam button for mute/unmute */}
-                {vision && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          type="button"
-                          onClick={handleCamToggle}
-                          className={cn(
-                            "p-1 rounded-full focus:outline-none hover:bg-secondary",
-                            {
-                              "bg-primary hover:bg-primary text-primary-foreground":
-                                !isCamMuted,
-                            }
-                          )}
-                        >
-                          <WebcamIcon className="w-6 h-6 m-auto" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-background text-foreground shadow-sm">
-                        {isCamMuted ? "Turn on camera" : "Turn off camera"}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
-
-                {/* Mic button for mute/unmute */}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        type="button"
-                        onClick={handleMicToggle}
-                        className={cn(
-                          "p-1 rounded-full focus:outline-none hover:bg-secondary flex gap-1 items-center w-24",
-                          {
-                            "bg-destructive hover:bg-destructive text-destructive-foreground":
-                              isMicMuted,
-                          }
-                        )}
-                      >
-                        <ToggledMicIcon className="w-6 h-6 m-auto" />
-                        {isMicMuted ? (
-                          <span className="font-semibold uppercase">Muted</span>
-                        ) : (
-                          <VoiceVisualizer
-                            backgroundColor="transparent"
-                            barColor={isMicMuted ? "gray" : "black"}
-                            barGap={4}
-                            barWidth={8}
-                            barMaxHeight={20}
-                            participantType="local"
-                          />
-                        )}
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-background text-foreground shadow-sm">
-                      {isMicMuted ? "Unmute microphone" : "Mute microphone"}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+        {/* Video preview */}
+        {vision && isVoiceMode && !isCamMuted && (
+          <div
+            className={cn(
+              "absolute shadow-lg z-20 bottom-full -translate-y-2 max-w-40 bg-secondary rounded-2xl aspect-video overflow-hidden transition-all",
+              {
+                "max-w-80": videoSize === "large",
+                "left-0": videoPlacement === "left",
+                "right-0": videoPlacement === "right",
+              }
+            )}
+          >
+            <RTVIClientVideo
+              participant="local"
+              fit="cover"
+              className="w-full h-full"
+            />
+            {!camTrack && (
+              <div className="absolute top-0 left-0 z-10 w-full h-full flex items-center justify-center">
+                <LoaderCircleIcon className="animate-spin" size={16} />
               </div>
             )}
+            <Button
+              className="absolute top-1 right-1 rounded-full !text-background bg-foreground/10 hover:bg-foreground/50 focus-visible:bg-foreground/50"
+              size="icon"
+              variant="ghost"
+              onClick={() =>
+                setVideoSize((vs) => (vs === "small" ? "large" : "small"))
+              }
+            >
+              {videoSize === "small" ? (
+                <Maximize2Icon size={16} />
+              ) : (
+                <Minimize2Icon size={16} />
+              )}
+            </Button>
+            <Button
+              className={cn(
+                "absolute bottom-1 rounded-full !text-background bg-foreground/10 hover:bg-foreground/50 focus-visible:bg-foreground/50",
+                {
+                  "right-1": videoPlacement === "left",
+                  "left-1": videoPlacement === "right",
+                }
+              )}
+              size="icon"
+              variant="ghost"
+              onClick={() =>
+                setVideoPlacement((vp) => (vp === "left" ? "right" : "left"))
+              }
+            >
+              {videoPlacement === "left" ? (
+                <ArrowRightToLineIcon size={16} />
+              ) : (
+                <ArrowLeftToLineIcon size={16} />
+              )}
+            </Button>
+          </div>
+        )}
 
+        {/* Chat Controls */}
+        <div className="flex gap-2 justify-between sm:grid sm:grid-cols-3">
+          <div className="flex items-end gap-2">
+            {/* Image Button (File picker with camera support on mobile) */}
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button
+                  <Button
+                    className="rounded-full relative"
+                    size="icon"
+                    variant="secondary-outline"
+                  >
+                    <PaperclipIcon />
+                    {/* File input (visually hidden) */}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="absolute inset-0 opacity-0 file:cursor-pointer file:inset-0 file:absolute"
+                      onChange={handleImageChange}
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background text-foreground shadow-sm">
+                  Attach images
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            {/* Cam button for mute/unmute */}
+            {vision && isVoiceMode && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="secondary-outline"
+                      onClick={handleCamToggle}
+                      className={cn("rounded-full", {
+                        "bg-primary hover:bg-primary text-primary-foreground":
+                          !isCamMuted,
+                      })}
+                    >
+                      <WebcamIcon size={24} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-background text-foreground shadow-sm">
+                    {isCamMuted ? "Turn on camera" : "Turn off camera"}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+
+          <div className="mr-auto sm:mr-0 sm:justify-self-center">
+            {/* Mic button for mute/unmute */}
+            {isVoiceMode && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="secondary-outline"
+                      onClick={handleMicToggle}
+                      className={cn(
+                        "py-1 px-2 rounded-full focus:outline-none hover:bg-secondary flex justify-between gap-1 items-center w-24",
+                        {
+                          "bg-destructive hover:bg-destructive text-destructive-foreground":
+                            isMicMuted,
+                        }
+                      )}
+                    >
+                      <ToggledMicIcon className="flex-none" size={24} />
+                      {isMicMuted ? (
+                        <span className="font-semibold uppercase">Muted</span>
+                      ) : (
+                        <VoiceVisualizer
+                          backgroundColor="transparent"
+                          barColor={isMicMuted ? "gray" : "black"}
+                          barGap={3}
+                          barWidth={8}
+                          barMaxHeight={20}
+                          participantType="local"
+                        />
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-background text-foreground shadow-sm">
+                    {isMicMuted ? "Unmute microphone" : "Mute microphone"}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+
+          <div className="justify-self-end flex items-end gap-3 relative">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
                     onClick={
                       isVoiceMode
                         ? handleSwitchToTextMode
                         : () => handleSwitchToVoiceMode()
                     }
+                    disabled={isConnecting}
+                    size="icon"
+                    variant={isVoiceMode ? "destructive" : "secondary-outline"}
                     type="button"
-                    className="bg-background relative flex gap-2 p-2 rounded-full border border-secondary focus:outline-none"
+                    className={cn("flex-none bg-background rounded-full", {
+                      "bg-secondary": isConnecting,
+                      "bg-foreground": isVoiceMode,
+                    })}
                   >
-                    <span
-                      className={cn(
-                        "rounded-full bg-foreground w-8 h-8 absolute left-1 top-1 transition-transform",
-                        {
-                          "translate-x-8": isVoiceMode,
-                        }
-                      )}
-                    />
-                    <Keyboard
-                      className={cn(
-                        "w-6 h-6 z-10 text-background transition-colors",
-                        {
-                          "text-muted-foreground": isVoiceMode,
-                        }
-                      )}
-                    />
-                    <Speech
-                      className={cn(
-                        "w-6 h-6 z-10 text-background transition-colors",
-                        {
-                          "text-muted-foreground": !isVoiceMode,
-                        }
-                      )}
-                    />
-                  </button>
+                    {isConnecting ? (
+                      <LoaderCircleIcon
+                        className="animate-spin rounded-full bg-muted text-background p-1"
+                        size={24}
+                      />
+                    ) : isVoiceMode ? (
+                      <XIcon size={24} />
+                    ) : (
+                      <Speech size={24} />
+                    )}
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent
                   align="center"
                   className="bg-background text-foreground shadow-sm"
                 >
-                  Toggle conversation mode
+                  {isVoiceMode ? "End voice mode" : "Enable voice mode"}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

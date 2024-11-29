@@ -60,7 +60,7 @@ export default async function WorkspaceLayout({
       />
 
       {/* Main content area */}
-      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-auto lg:rounded-l-3xl">
+      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-y-auto overflow-x-hidden lg:rounded-l-3xl">
         {/* Navbar */}
         <Navbar
           currentModelValue={structuredWorkspaceData.llm.model.value}
