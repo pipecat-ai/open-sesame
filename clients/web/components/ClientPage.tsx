@@ -65,9 +65,11 @@ export default function ClientPage({
     );
   }, [conversationId, workspaceId]);
 
+  const visibleMessages = messages.filter(m => m.content.role !== "system");
+
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const [showMessages, setShowMessages] = useState(
-    messages.length > 0 || Boolean(searchParams.get("v")),
+    visibleMessages.length > 0 || Boolean(searchParams.get("v")),
   );
 
   useLayoutEffect(() => {
@@ -164,7 +166,7 @@ export default function ClientPage({
 
           {/* Messages */}
           <div className="relative flex-grow p-4 pb-8 flex flex-col">
-            {messages.length > 0 || showMessages ? (
+            {visibleMessages.length > 0 || showMessages ? (
               <ChatMessages
                 autoscroll={!showScrollToBottom}
                 conversationId={conversationId}
