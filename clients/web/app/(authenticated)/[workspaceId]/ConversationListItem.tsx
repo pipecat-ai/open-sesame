@@ -107,7 +107,7 @@ export default function ConversationListItem({
         {
           "bg-secondary-foreground/[.05] font-medium": isActive,
           "hover:bg-input": !isEditing,
-        }
+        },
       )}
     >
       {isEditing ? (
@@ -150,7 +150,7 @@ export default function ConversationListItem({
         <>
           <PageTransitionLink
             href={`/${workspaceId}/c/${conversation.conversation_id}`}
-            className="text-base flex-grow px-3 py-2 text-ellipsis text-nowrap overflow-hidden w-full"
+            className="text-base flex-grow px-3 py-2 text-ellipsis text-nowrap overflow-hidden w-full focus-visible:outline-primary focus-visible:outline-1"
             onClick={onClick}
           >
             {title}
@@ -162,7 +162,7 @@ export default function ConversationListItem({
                   "shrink-0 text-foreground/50 group-hover:visible group-focus-within:visible aria-expanded:visible hover:bg-transparent hover:text-foreground",
                   {
                     invisible: !isActive,
-                  }
+                  },
                 )}
                 size="icon"
                 variant="ghost"

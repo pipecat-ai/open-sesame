@@ -31,7 +31,11 @@ const serviceTypeLabels: Record<ServiceModel["service_type"], string> = {
   transport: "Transport",
 };
 
-export default function ServiceConfig({ availableServices, services, workspaces }: Props) {
+export default function ServiceConfig({
+  availableServices,
+  services,
+  workspaces,
+}: Props) {
   const { refresh } = useRouter();
   const [addService, setAddService] = useState(false);
   const [editServiceId, setEditServiceId] = useState("");
@@ -77,9 +81,9 @@ export default function ServiceConfig({ availableServices, services, workspaces 
               <TableCell>
                 <span className="block overflow-hidden truncate">
                   {s.workspace_id
-                    ? workspaces.find(
-                        (ws) => ws.workspace_id === s.workspace_id
-                      )?.title ?? "Unknown"
+                    ? (workspaces.find(
+                        (ws) => ws.workspace_id === s.workspace_id,
+                      )?.title ?? "Unknown")
                     : "All"}
                 </span>
               </TableCell>
@@ -114,7 +118,7 @@ export default function ServiceConfig({ availableServices, services, workspaces 
             refresh();
             setAddService(false);
             toast({
-              title: "Service added"
+              title: "Service added",
             });
           }}
           services={availableServices}
@@ -128,7 +132,7 @@ export default function ServiceConfig({ availableServices, services, workspaces 
             refresh();
             setEditServiceId("");
             toast({
-              title: "Service saved"
+              title: "Service saved",
             });
           }}
           service={editService}
@@ -142,7 +146,7 @@ export default function ServiceConfig({ availableServices, services, workspaces 
             refresh();
             setDeleteServiceId("");
             toast({
-              title: "Service deleted"
+              title: "Service deleted",
             });
           }}
           service={deleteService}

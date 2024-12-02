@@ -2,7 +2,7 @@ import { authHeaders } from "@/lib/auth";
 import { Api, RequestParams } from "./sesameApi";
 
 export const getApiClient = async (
-  baseApiParams: Omit<RequestParams, "baseUrl" | "signal" | "cancelToken"> = {}
+  baseApiParams: Omit<RequestParams, "baseUrl" | "signal" | "cancelToken"> = {},
 ) => {
   const headers = await authHeaders();
 

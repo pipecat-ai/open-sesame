@@ -1,6 +1,13 @@
 "use client";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import emitter from "@/lib/eventEmitter";
 import { LLMModel } from "@/lib/llm";
 import { Menu, Settings2 } from "lucide-react";
@@ -22,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentModelValue, models }) => {
 
   const [selectedModel, setSelectedModel] = useState(currentModelValue);
 
-  const currentModel = models.find(m => m.model === selectedModel);
+  const currentModel = models.find((m) => m.model === selectedModel);
 
   return (
     <div className="bg-background flex items-center justify-between p-4 sticky top-0 z-10">
@@ -34,27 +41,34 @@ const Navbar: React.FC<NavbarProps> = ({ currentModelValue, models }) => {
         <Menu className="w-6 h-6" />
       </button>
 
-      <Select value={selectedModel} onValueChange={(v) => {
-        setSelectedModel(v);
-        emitter.emit("changeLlmModel", v);
-      }}>
-        <SelectTrigger className="font-semibold max-w-fit">
+      <Select
+        value={selectedModel}
+        onValueChange={(v) => {
+          setSelectedModel(v);
+          emitter.emit("changeLlmModel", v);
+        }}
+      >
+        <SelectTrigger className="text-base font-semibold max-w-fit rounded-full border-background shadow-none text-muted  transition-all">
           <SelectValue>{currentModel?.label}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {models.map((m) => (
-            <SelectItem key={m.model} value={m.model}>{m.label}</SelectItem>
+            <SelectItem key={m.model} value={m.model}>
+              {m.label}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>
 
       {/* Settings Icon */}
-      <button
-        className="p-2 rounded-md hover:bg-secondary focus:outline-none ms-auto"
+      <Button
+        variant="outline"
+        className="rounded-full ms-auto gap-1"
         onClick={handleSettingsToggle}
       >
-        <Settings2 className="w-6 h-6" />
-      </button>
+        <Settings2 size={16} />
+        Settings
+      </Button>
     </div>
   );
 };

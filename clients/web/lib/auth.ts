@@ -1,6 +1,6 @@
 "use server";
 
-import { LOGIN_COOKIE_KEY } from "@/lib/constants";
+import { EMAIL_COOKIE_KEY, LOGIN_COOKIE_KEY } from "@/lib/constants";
 import { cookies } from "next/headers";
 
 export async function getAuthToken() {
@@ -17,4 +17,12 @@ export async function authHeaders(): Promise<HeadersInit> {
   return {
     Authorization: `Bearer ${token}`,
   };
+}
+
+export async function getEmail() {
+  const cookiez = await cookies();
+  const email = !process.env.SESAME_USER_TOKEN
+    ? cookiez.get(EMAIL_COOKIE_KEY)?.value
+    : "";
+  return email;
 }

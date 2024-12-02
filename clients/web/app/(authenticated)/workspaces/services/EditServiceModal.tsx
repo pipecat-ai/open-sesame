@@ -33,7 +33,7 @@ export default function EditServiceModal({
   const [error, setError] = useState("");
 
   const workspace = workspaces.find(
-    (ws) => ws.workspace_id === service.workspace_id
+    (ws) => ws.workspace_id === service.workspace_id,
   );
 
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {

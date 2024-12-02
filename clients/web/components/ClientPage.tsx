@@ -61,13 +61,15 @@ export default function ClientPage({
             workspace_id: workspaceId,
           },
         },
-      })
+      }),
     );
   }, [conversationId, workspaceId]);
 
+  const visibleMessages = messages.filter(m => m.content.role !== "system");
+
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const [showMessages, setShowMessages] = useState(
-    messages.length > 0 || Boolean(searchParams.get("v"))
+    visibleMessages.length > 0 || Boolean(searchParams.get("v")),
   );
 
   useLayoutEffect(() => {
@@ -77,7 +79,7 @@ export default function ClientPage({
       const scrollBottom =
         scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop;
       setShowScrollToBottom(
-        scroller.scrollHeight > scroller.clientHeight && scrollBottom > 150
+        scroller.scrollHeight > scroller.clientHeight && scrollBottom > 150,
       );
     };
     window.addEventListener("scroll", handleScroll);
@@ -156,15 +158,15 @@ export default function ClientPage({
       <QueryClientProvider>
         <PageRefresher />
         <div
-          className={cn("flex flex-col justify-between flex-grow", {
+          className={cn("flex-grow grid grid-cols-1 grid-rows-[1fr_min-content]", {
             "animate-appear": animate,
           })}
         >
           <AutoScrollToBottom />
 
           {/* Messages */}
-          <div className="relative flex-grow p-4 flex flex-col">
-            {messages.length > 0 || showMessages ? (
+          <div className="relative flex-grow p-4 pb-8 flex flex-col">
+            {visibleMessages.length > 0 || showMessages ? (
               <ChatMessages
                 autoscroll={!showScrollToBottom}
                 conversationId={conversationId}
@@ -212,12 +214,14 @@ export default function ClientPage({
           </div>
 
           {/* Chat controls */}
-          <div className="bg-background sticky bottom-0 z-10">
+          <div className="flex-none bg-background sticky bottom-0 w-full z-10">
             <ChatControls
               conversationId={conversationId}
               vision={structuredWorkspace.botProfile === "vision"}
               workspaceId={workspaceId}
             />
+            {/* Prevents scroll content from showing up below chat controls */}
+            <div className="h-4 bg-background w-full" />
           </div>
         </div>
 

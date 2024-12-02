@@ -38,7 +38,7 @@ export function normalizeMessageText(message: Message) {
           .filter((tc) => tc.type === "text")
           .map((tc) => tc.text)
           .join(" ")
-      : message.content.content
+      : message.content.content,
   );
 }
 
@@ -55,7 +55,7 @@ export async function getMessages(conversationId: string): Promise<Message[]> {
     const apiClient = await getApiClient();
     const response =
       await apiClient.api.getConversationAndMessagesApiConversationsConversationIdMessagesGet(
-        conversationId
+        conversationId,
       );
     if (response.ok) {
       const json = await response.json();
@@ -65,7 +65,7 @@ export async function getMessages(conversationId: string): Promise<Message[]> {
       return json.messages as Message[];
     } else {
       throw new Error(
-        `Error fetching messages: ${response.status} ${response.statusText}`
+        `Error fetching messages: ${response.status} ${response.statusText}`,
       );
     }
   } catch (e) {

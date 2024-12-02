@@ -2,6 +2,7 @@
 
 import DeleteWorkspaceModal from "@/app/(authenticated)/workspaces/DeleteWorkspaceModal";
 import ErrorPage from "@/components/ErrorPage";
+import { getEmail } from "@/lib/auth";
 import { WorkspaceWithConversations } from "@/lib/sesameApi";
 import { getWorkspaces } from "@/lib/workspaces";
 import React from "react";
@@ -28,17 +29,23 @@ export default async function WorkspacesLayout({
     );
   }
 
+  const email = await getEmail();
+
   return (
-    <div className="lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
+    <div className="bg-secondary lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
       {/* Sidebar */}
-      <Sidebar signOut={!process.env.SESAME_USER_TOKEN} workspaces={workspaces} />
+      <Sidebar
+        email={email}
+        signOut={!process.env.SESAME_USER_TOKEN}
+        workspaces={workspaces}
+      />
 
       {/* Main content area */}
-      <div className="flex flex-col min-h-dvh w-full">
+      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-auto lg:rounded-l-3xl">
         <Navbar />
 
         {/* Page content */}
-        <main className="relative flex-grow mx-auto max-w-3xl w-full flex flex-col">
+        <main className="relative flex-grow mx-auto max-w-3xl w-full flex flex-col px-4 py-10">
           {children}
         </main>
       </div>

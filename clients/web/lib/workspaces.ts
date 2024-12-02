@@ -16,7 +16,7 @@ export async function getWorkspaces() {
   const json = await response.json();
   if (!response.ok) {
     throw new Error(
-      `Error fetching workspaces: ${response.status} ${response.statusText}`
+      `Error fetching workspaces: ${response.status} ${response.statusText}`,
     );
   }
   return (json as WorkspaceWithConversations[])
@@ -27,14 +27,14 @@ export async function getWorkspaces() {
     })
     .sort(
       (a, b) =>
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
     );
 }
 
 export async function getWorkspace(id: string) {
   try {
     const workspaces = await getWorkspaces();
-    return workspaces.find(ws => ws.workspace_id === id);
+    return workspaces.find((ws) => ws.workspace_id === id);
   } catch (e) {
     console.error(e);
     return null;
@@ -156,7 +156,7 @@ export const defaultWorkspace: Omit<
 
 export function getWorkspaceStructuredData(
   workspaceConfig: WorkspaceModel["config"],
-  fallbackToDefault = true
+  fallbackToDefault = true,
 ): WorkspaceStructuredData {
   const defaults = fallbackToDefault
     ? getWorkspaceStructuredData(defaultWorkspace.config, false)
@@ -166,7 +166,7 @@ export function getWorkspaceStructuredData(
   const llmModel = llmConfig?.options?.find((o) => o.name === "model");
   const llmMessages = workspaceConfig?.default_llm_context ?? [];
   const llmRunOnConfig = llmConfig?.options?.find(
-    (o) => o.name === "run_on_config"
+    (o) => o.name === "run_on_config",
   );
 
   const model = getLLMModel(llmModel?.value);
@@ -176,12 +176,12 @@ export function getWorkspaceStructuredData(
   const ttsModel = ttsConfig?.options?.find((o) => o.name === "model");
   const ttsLanguage = ttsConfig?.options?.find((o) => o.name === "language");
   const ttsTextFilter = ttsConfig?.options?.find(
-    (o) => o.name === "text_filter"
+    (o) => o.name === "text_filter",
   );
 
   const interactionMode: InteractionMode = equal(
     ttsTextFilter?.value,
-    defaultTextFilter
+    defaultTextFilter,
   )
     ? "conversational"
     : "informational";

@@ -23,10 +23,10 @@ export default function WorkspaceOptionsSection({
       ...fs,
       workspaceOptions: {
         ...fs.workspaceOptions,
-        botProfile: profile
-      }
-    }))
-  }
+        botProfile: profile,
+      },
+    }));
+  };
 
   return (
     <ConfigurationGroup label="Workspace Options">
@@ -62,22 +62,21 @@ export default function WorkspaceOptionsSection({
           Bot Profile
         </Label>
         <ToggleGroup
-            type="single"
-            variant="outline"
-            className="justify-start"
-            value={formState.workspaceOptions.botProfile}
-            onValueChange={handleBotProfileChange}
-          >
-            
-            <ToggleGroupItem className="gap-1" value="voice">
-              <SpeechIcon size={16} />
-              Voice
-            </ToggleGroupItem>
-            <ToggleGroupItem className="gap-1" value="vision">
-              <EyeIcon size={16} />
-              Vision
-            </ToggleGroupItem>
-          </ToggleGroup>
+          type="single"
+          variant="outline"
+          className="justify-start"
+          value={formState.workspaceOptions.botProfile}
+          onValueChange={handleBotProfileChange}
+        >
+          <ToggleGroupItem className="gap-1" value="voice">
+            <SpeechIcon size={16} />
+            Voice
+          </ToggleGroupItem>
+          <ToggleGroupItem className="gap-1" value="vision">
+            <EyeIcon size={16} />
+            Vision
+          </ToggleGroupItem>
+        </ToggleGroup>
       </ConfigurationItem>
     </ConfigurationGroup>
   );

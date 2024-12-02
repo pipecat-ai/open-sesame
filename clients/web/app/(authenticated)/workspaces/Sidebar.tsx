@@ -1,7 +1,7 @@
 "use client";
 
+import UserMenu from "@/app/(authenticated)/[workspaceId]/UserMenu";
 import PageTransitionLink from "@/components/PageTransitionLink";
-import SignOutButton from "@/components/SignOutButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,11 +24,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface SidebarProps {
+  email?: string;
   signOut?: boolean;
   workspaces: WorkspaceModel[];
 }
 
-export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
+export default function Sidebar({
+  email,
+  signOut = false,
+  workspaces,
+}: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const pathname = usePathname();
@@ -48,27 +53,21 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
 
   const hasWorkspaces = workspaces.length > 0;
 
-  const getContent = (hasTitle: boolean) => (
-    <div className="flex flex-col gap-6 p-4 sticky top-0 overflow-y-auto h-dvh">
-      {hasTitle && (
-        <h2 className="text-xl font-semibold -m-4 mb-0 p-4 sticky -top-4 bg-secondary shadow-md z-10">
-          Workspaces
-        </h2>
-      )}
-
-      <div className="space-y-1">
+  const getContent = () => (
+    <div className="bg-inherit flex flex-col gap-6 p-4 sticky top-0 overflow-y-auto h-full">
+      <div className="flex flex-col gap-1">
         <PageTransitionLink
           href="/workspaces/new"
           className={cn(
-            "flex gap-2 items-center px-3 py-2 rounded-lg transition-colors hover:bg-input",
+            "flex gap-2 items-center px-3 py-2 rounded-full border border-input transition-colors hover:bg-input",
             {
               "bg-input": pathname === `/workspaces/new`,
-            }
+            },
           )}
           onClick={() => setIsOpen(false)}
         >
           <SquarePlusIcon size={16} />
-          Create new workspaces
+          Create new workspace
         </PageTransitionLink>
 
         <PageTransitionLink
@@ -77,7 +76,7 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
             "flex gap-2 items-center px-3 py-2 rounded-lg transition-colors hover:bg-input",
             {
               "bg-input": pathname === `/workspaces/services`,
-            }
+            },
           )}
           onClick={() => setIsOpen(false)}
         >
@@ -99,10 +98,10 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
               <li
                 key={workspace.workspace_id}
                 className={cn(
-                  "grid grid-cols-[calc(100%-36px)_32px] gap-1 items-center p-2 overflow-hidden group",
+                  "grid grid-cols-[calc(100%-36px)_32px] gap-1 items-center p-2 overflow-hidden group rounded-lg transition-colors hover:bg-input focus-visible:bg-input",
                   {
-                    "bg-input rounded-lg": isActive,
-                  }
+                    "bg-secondary-foreground/[.05] font-medium": isActive,
+                  },
                 )}
               >
                 <PageTransitionLink
@@ -122,7 +121,7 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
                       "flex-none group-hover:visible group-focus-within:visible aria-expanded:visible p-2",
                       {
                         invisible: !isActive,
-                      }
+                      },
                     )}
                   >
                     <EllipsisIcon size={16} />
@@ -151,12 +150,13 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
             No workspaces
           </li>
         )}
-        {signOut && (
-          <SignOutButton className="sticky bottom-0 z-10 mt-auto">
-            Sign out
-          </SignOutButton>
-        )}
       </ul>
+
+      <div className="mt-auto sticky bottom-0 bg-inherit">
+        <div className="bg-inherit -m-4 p-4">
+          {signOut && <UserMenu email={email} />}
+        </div>
+      </div>
     </div>
   );
 
@@ -165,19 +165,17 @@ export default function Sidebar({ signOut = false, workspaces }: SidebarProps) {
       {/* Mobile Sidebar using Sheet component */}
       <div className="lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetContent className="bg-secondary" side="left">
-            <SheetTitle className="-m-4 mb-0 p-4 sticky top-0 bg-background z-10 shadow-md">
-              Workspaces
-            </SheetTitle>
+          <SheetContent className="bg-secondary pt-16" side="left">
+            <SheetTitle className="sr-only">Workspaces</SheetTitle>
             <SheetDescription></SheetDescription>
-            {getContent(false)}
+            {getContent()}
           </SheetContent>
         </Sheet>
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block lg:w-[var(--sidebar-width)] bg-secondary">
-        {getContent(true)}
+      <div className="hidden lg:block lg:w-[var(--sidebar-width)] bg-secondary h-dvh">
+        {getContent()}
       </div>
     </>
   );

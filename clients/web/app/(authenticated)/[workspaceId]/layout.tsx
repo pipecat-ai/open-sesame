@@ -2,6 +2,7 @@
 
 import ErrorPage from "@/components/ErrorPage";
 import QueryClientProvider from "@/components/QueryClientProvider";
+import { getEmail } from "@/lib/auth";
 import { getLLMModelsByService } from "@/lib/llm";
 import { WorkspaceWithConversations } from "@/lib/sesameApi";
 import { getWorkspaces, getWorkspaceStructuredData } from "@/lib/workspaces";
@@ -45,18 +46,21 @@ export default async function WorkspaceLayout({
   const structuredWorkspaceData = getWorkspaceStructuredData(workspace.config);
   const models = getLLMModelsByService(structuredWorkspaceData.llm.service);
 
+  const email = await getEmail();
+
   return (
-    <div className="lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
+    <div className="bg-secondary lg:grid lg:grid-cols-[var(--sidebar-width)_1fr] min-h-dvh">
       {/* Sidebar */}
       <Sidebar
         conversations={workspace.conversations}
+        email={email}
         signOut={!process.env.SESAME_USER_TOKEN}
         workspace={workspace}
         workspaces={workspaces}
       />
 
       {/* Main content area */}
-      <div className="flex flex-col min-h-dvh w-full bg-background">
+      <div className="flex flex-col h-dvh lg:h-[calc(100dvh-16px)] w-full bg-background lg:my-2 overflow-y-auto overflow-x-hidden lg:rounded-l-3xl">
         {/* Navbar */}
         <Navbar
           currentModelValue={structuredWorkspaceData.llm.model.value}

@@ -102,7 +102,7 @@ const ConversationList = ({
       acc[group].push(conversation);
       return acc;
     },
-    {}
+    {},
   );
 
   const hasConversations = Object.keys(groupedConversations).length > 0;

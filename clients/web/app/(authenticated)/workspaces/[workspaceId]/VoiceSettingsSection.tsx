@@ -8,9 +8,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ServiceInfo, ServiceModel, WorkspaceModel } from "@/lib/sesameApi";
-import { getVoicesByProvider, InteractionMode, languageOptions, TTSService } from "@/lib/voice";
+import {
+  getVoicesByProvider,
+  InteractionMode,
+  languageOptions,
+  TTSService,
+} from "@/lib/voice";
 import { HelpCircleIcon, PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -31,15 +41,16 @@ export default function VoiceSettingsSection({
   services,
   formState,
   setFormState,
-  workspace
+  workspace,
 }: Props) {
-  const { mainLanguage, defaultVoice, interactionMode } = formState.voiceSettings;
+  const { mainLanguage, defaultVoice, interactionMode } =
+    formState.voiceSettings;
   const { refresh } = useRouter();
   const [addService, setAddService] = useState(false);
 
   const validVoices = getVoicesByProvider(
     defaultVoice.ttsProvider,
-    mainLanguage
+    mainLanguage,
   );
 
   const handleProviderChange = (provider: TTSService) => {
@@ -67,7 +78,7 @@ export default function VoiceSettingsSection({
         interactionMode,
       },
     }));
-  }
+  };
 
   return (
     <ConfigurationGroup label="Voice Settings">
@@ -78,7 +89,7 @@ export default function VoiceSettingsSection({
           onClose={() => setAddService(false)}
           onSaved={() => {
             refresh();
-            setAddService(false)
+            setAddService(false);
           }}
           services={availableServices}
           workspaces={[workspace]}
@@ -87,12 +98,12 @@ export default function VoiceSettingsSection({
 
       {/* TTS Provider */}
       <fieldset>
-        <ConfigurationItem>
+        <ConfigurationItem align="start">
           <legend className="text-base font-semibold">TTS Provider</legend>
           <ToggleGroup
             type="single"
             variant="outline"
-            className="justify-start"
+            className="flex-wrap justify-start"
             value={defaultVoice.ttsProvider}
             onValueChange={handleProviderChange}
           >
@@ -102,6 +113,7 @@ export default function VoiceSettingsSection({
                 id={s.service_id}
                 value={s.service_provider!}
                 aria-label={s.title}
+                className="text-nowrap"
               >
                 {s.title}
               </ToggleGroupItem>
@@ -125,7 +137,7 @@ export default function VoiceSettingsSection({
             onValueChange={(lang) => {
               const availableVoices = getVoicesByProvider(
                 defaultVoice.ttsProvider,
-                lang
+                lang,
               ).map((v) => v.voiceId);
 
               setFormState((state) => ({
@@ -136,7 +148,7 @@ export default function VoiceSettingsSection({
                   defaultVoice: {
                     ...state.voiceSettings.defaultVoice,
                     selectedVoice: availableVoices.includes(
-                      state.voiceSettings.defaultVoice.selectedVoice
+                      state.voiceSettings.defaultVoice.selectedVoice,
                     )
                       ? state.voiceSettings.defaultVoice.selectedVoice
                       : availableVoices[0],
@@ -155,8 +167,8 @@ export default function VoiceSettingsSection({
                   (lang) =>
                     getVoicesByProvider(
                       defaultVoice.ttsProvider,
-                      lang[defaultVoice.ttsProvider]
-                    ).length > 0
+                      lang[defaultVoice.ttsProvider],
+                    ).length > 0,
                 )
                 .map((lang) => (
                   <SelectItem
@@ -202,7 +214,7 @@ export default function VoiceSettingsSection({
                   <SelectItem key={voice.voiceId} value={voice.voiceId}>
                     {voice.label}
                   </SelectItem>
-                )
+                ),
               )}
             </SelectContent>
           </Select>
@@ -219,7 +231,8 @@ export default function VoiceSettingsSection({
                   <HelpCircleIcon size={16} />
                 </TooltipTrigger>
                 <TooltipContent className="bg-secondary max-w-64">
-                  A conversational workspace displays words as the bot speaks. Informational displays the full LLM output at once.
+                  A conversational workspace displays words as the bot speaks.
+                  Informational displays the full LLM output at once.
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

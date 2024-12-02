@@ -109,7 +109,7 @@ export default function ConfigurationForm({
         name: workspace.title,
       },
     }),
-    [structuredData, workspace]
+    [structuredData, workspace],
   );
 
   const [formState, setFormState] = useState<WorkspaceFormConfig>(defaultState);
@@ -142,7 +142,7 @@ export default function ConfigurationForm({
     setIsSaving(true);
 
     const voice = voiceOptions.find(
-      (v) => v.voiceId === formState.voiceSettings.defaultVoice.selectedVoice
+      (v) => v.voiceId === formState.voiceSettings.defaultVoice.selectedVoice,
     );
 
     const updatedWorkspace: Pick<
@@ -236,7 +236,7 @@ export default function ConfigurationForm({
         {
           method: isNewWorkspace ? "POST" : "PUT",
           body: JSON.stringify(updatedWorkspace),
-        }
+        },
       );
       if (response.ok) {
         const json = await response.json();
@@ -249,13 +249,13 @@ export default function ConfigurationForm({
         push(
           isNewWorkspace
             ? `/${json.workspace_id}`
-            : `/workspaces/${workspace.workspace_id}`
+            : `/workspaces/${workspace.workspace_id}`,
         );
       } else {
         throw new Error(
           `${response.status}: ${
             response.statusText
-          } - ${await response.text()}`
+          } - ${await response.text()}`,
         );
       }
     } catch (e: unknown) {
@@ -272,7 +272,7 @@ export default function ConfigurationForm({
 
   return (
     <form
-      className="animate-appear p-4 flex flex-col gap-6"
+      className="animate-appear flex flex-col gap-6"
       onSubmit={handleSubmit}
     >
       {workspace.workspace_id !== "new" && (

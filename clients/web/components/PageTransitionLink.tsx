@@ -12,7 +12,7 @@ const PageTransitionLink = forwardRef<HTMLAnchorElement, Props>(
     };
 
     return <Link ref={forwardedRef} onClick={handleClick} {...props} />;
-  }
+  },
 );
 PageTransitionLink.displayName = "PageTransitionLink";
 

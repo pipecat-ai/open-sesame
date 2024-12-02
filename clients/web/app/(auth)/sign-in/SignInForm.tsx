@@ -28,7 +28,7 @@ export default function SignInForm() {
   };
 
   return (
-    <Card className="min-w-80">
+    <Card className="max-w-80 w-full">
       <CardHeader>
         <h1 className="font-semibold text-xl">Sign in</h1>
       </CardHeader>
