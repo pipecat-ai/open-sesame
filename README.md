@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This repo is no longer maintained. Checkout [pipecat-examples](https://github.com/pipecat-ai/pipecat-examples) for recent demos and example code. 
+
 <img alt="open-sesame" width="480px" height="auto" src="./docs/sesame-banner.png">
 
 # Open Sesame
